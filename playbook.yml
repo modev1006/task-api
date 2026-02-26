@@ -1,0 +1,59 @@
+---
+- name: Deploiement de task-api
+  hosts: vm
+  become: yes
+
+  tasks:
+
+    - name: Mettre a jour les paquets
+      apt:
+        update_cache: yes
+
+    - name: Verifier si Docker est installe
+      command: docker --version
+      register: docker_check
+      ignore_errors: yes
+
+    - name: Installer Docker si absent
+      apt:
+        name: docker.io
+        state: present
+      when: docker_check.failed
+
+    - name: Demarrer et activer Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Installer MySQL
+      apt:
+        name: mysql-server
+        state: present
+
+    - name: Demarrer et activer MySQL
+      systemd:
+        name: mysql
+        state: started
+        enabled: yes
+
+    - name: Stopper lancien conteneur
+      command: docker stop task-api
+      ignore_errors: yes
+
+    - name: Supprimer lancien conteneur
+      command: docker rm task-api
+      ignore_errors: yes
+
+    - name: Pull limage depuis Docker Hub
+      command: docker pull modev1006/task-api:latest
+
+    - name: Lancer le nouveau conteneur
+      command: docker run -d --name task-api --restart always -p 8085:8085 -e SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/taskdb -e SPRING_DATASOURCE_USERNAME=root -e SPRING_DATASOURCE_PASSWORD=Re@lmadrid07 modev1006/task-api:latest
+
+    - name: Verifier que lapp repond
+      shell: curl -s -o /dev/null -w "%{http_code}" http://localhost:8085/api/tasks
+      register: http_code
+      retries: 5
+      delay: 10
+      until: http_code.stdout == "200"
