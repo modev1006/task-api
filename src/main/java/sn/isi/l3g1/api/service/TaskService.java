@@ -8,7 +8,7 @@ import sn.isi.l3g1.api.repository.TaskRepository;
 
 import java.util.List;
 
-@Service
+@Service("apiTaskService")
 public class TaskService {
 
     @Autowired

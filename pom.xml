@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.5.11</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>sn.isi.l3g1.api</groupId>
 	<artifactId>task-api</artifactId>
@@ -51,6 +51,24 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<!-- task-core depuis Nexus -->
+		<dependency>
+			<groupId>sn.isi.l3g1.core</groupId>
+			<artifactId>task-core</artifactId>
+			<version>0.3.0</version>
+		</dependency>
+
+		<!-- Prometheus metrics -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -62,5 +80,4 @@
 		</plugins>
 	</build>
 
-	
 </project>
