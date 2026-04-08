@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = {"sn.isi.l3g1"})
+@ComponentScan(basePackages = {"sn.isi.l3g1.api"})
 @EntityScan(basePackages = {"sn.isi.l3g1.api.model"})
 @EnableJpaRepositories(basePackages = {"sn.isi.l3g1.api.repository"})
 public class TaskApiApplication {
